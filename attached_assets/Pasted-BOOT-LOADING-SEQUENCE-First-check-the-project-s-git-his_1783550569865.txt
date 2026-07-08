@@ -1,0 +1,37 @@
+BOOT / LOADING SEQUENCE
+- First, check the project's git history / earlier versions for the original boot-up
+  sequence that rotated through different status lines instead of a single static
+  "Loading systems" message, and restore that behavior if it's recoverable.
+- If it isn't recoverable, build this instead: a full-screen near-black loading state
+  that cycles through several short status lines, e.g.:
+  "Initializing Systems" → "Calibrating Telemetry" → "Loading Chassis Data" →
+  "Syncing Battery State" → "Systems Ready"
+  Each line visible ~700–900ms, crossfading (~200ms, not a hard cut) into the next.
+- Pair it with a thin horizontal progress bar filling 0→100% over the total boot
+  duration, and a small pulsing Lynx icon mark above the status text.
+- When the sequence finishes, crossfade (never a hard cut) into the title screen below.
+
+TITLE SCREEN (shows after boot completes)
+- Solid dark background matching the site's existing near-black (~#05070d). No 3D scene,
+  no mute button, no cinematic grading — keep this screen simple.
+- Centered: Lynx's existing icon mark + wordmark, in the site's own colourway (lime-green
+  mark, light wordmark), sized as the clear focal point.
+- Below it, four functional nav buttons, stacked vertically, each a REAL route — not
+  placeholder markup:
+  Explore The Bike → /the-bike
+  Sponsors → /sponsors
+  The Team → /team
+  Events → /events
+- Entrance animation: logo fades/slides in first, then the four buttons stagger in one
+  after another (~100ms apart between each). Ease-out timing only — no bounce/elastic,
+  keep it restrained and confident rather than playful.
+- Button hover/focus state: border and text shift to the brand accent colour on
+  hover/focus — a small, clean state change, not a scale-jump or heavy shadow.
+
+TYPOGRAPHY (front-end team's call was delegated to me — here's the pick and why)
+- Logo/headline: Orbitron (Google Fonts) — angular and technical, holds up at large
+  display sizes, reads as HUD/racing rather than generic.
+- Buttons and body text: Rajdhani (Google Fonts) — condensed, stays legible at smaller
+  sizes, and is a common pairing with Orbitron in motorsport/sim-racing UI for exactly
+  that reason.
+- Load both via standard Google Fonts <link> tags.
