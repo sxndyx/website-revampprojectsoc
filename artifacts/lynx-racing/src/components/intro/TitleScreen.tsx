@@ -3,9 +3,9 @@ import { motion, type Variants } from "framer-motion";
 import lynxMark from "@assets/lynx-mark.png";
 
 /**
- * Title screen (main menu) shown after the boot sequence. Simple, near-black,
- * centered Lynx mark + Orbitron wordmark, with four functional nav buttons that
- * enter in a staggered ease-out sequence after the logo.
+ * Title screen (main menu) shown after the boot sequence. Centered Lynx mark +
+ * Orbitron wordmark, with a bottom-left menu of functional route buttons styled
+ * as text-only items (no outline) in a stylised gothic display face.
  */
 
 const MENU = [
@@ -30,7 +30,7 @@ export function TitleScreen({
     // Move keyboard focus to the first menu item once the entrance settles.
     const t = window.setTimeout(
       () => firstBtnRef.current?.focus(),
-      reduced ? 0 : 700,
+      reduced ? 0 : 900,
     );
     return () => clearTimeout(t);
   }, [reduced]);
@@ -48,47 +48,47 @@ export function TitleScreen({
     hidden: {},
     show: {
       transition: {
-        delayChildren: reduced ? 0 : 0.5,
-        staggerChildren: reduced ? 0 : 0.1,
+        delayChildren: reduced ? 0 : 0.55,
+        staggerChildren: reduced ? 0 : 0.09,
       },
     },
   };
 
   const item: Variants = {
-    hidden: { opacity: 0, y: reduced ? 0 : 16 },
+    hidden: { opacity: 0, x: reduced ? 0 : -14 },
     show: {
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: { duration: reduced ? 0 : 0.5, ease: EASE_OUT },
     },
   };
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-12 px-6">
-      {/* Logo lockup */}
+    <div className="absolute inset-0">
+      {/* Centered logo lockup */}
       <motion.div
         variants={logo}
         initial="hidden"
         animate="show"
-        className="flex flex-col items-center gap-5"
+        className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 pb-24 [@media(max-height:640px)]:justify-start [@media(max-height:640px)]:gap-3 [@media(max-height:640px)]:pt-6 [@media(max-height:640px)]:pb-0"
       >
         <img
           src={lynxMark}
           alt="Lynx Racing"
-          className="h-24 w-auto object-contain drop-shadow-[0_0_28px_rgba(168,255,62,0.35)] md:h-32"
+          className="h-24 w-auto object-contain drop-shadow-[0_0_28px_rgba(168,255,62,0.35)] md:h-32 [@media(max-height:640px)]:h-14"
         />
-        <h1 className="pl-[0.28em] text-center font-orbitron text-2xl font-extrabold uppercase tracking-[0.28em] text-foreground md:text-4xl">
+        <h1 className="pl-[0.28em] text-center font-orbitron text-2xl font-extrabold uppercase tracking-[0.28em] text-foreground md:text-4xl [@media(max-height:640px)]:text-lg">
           Lynx Racing
         </h1>
       </motion.div>
 
-      {/* Menu */}
+      {/* Bottom-left menu (text-only, no outline) */}
       <motion.nav
         variants={list}
         initial="hidden"
         animate="show"
         aria-label="Main menu"
-        className="flex w-full max-w-xs flex-col gap-3"
+        className="absolute bottom-10 left-5 flex w-72 flex-col gap-0.5 sm:bottom-16 sm:left-14 sm:w-80"
       >
         {MENU.map((m, i) => (
           <motion.div key={m.to} variants={item}>
@@ -96,21 +96,18 @@ export function TitleScreen({
               type="button"
               ref={i === 0 ? firstBtnRef : undefined}
               onClick={() => onNavigate(m.to)}
-              className="group flex w-full items-center justify-center gap-3 border border-primary/25 px-6 py-3.5 font-rajdhani text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground transition-colors duration-200 hover:border-primary hover:text-primary focus:outline-none focus-visible:border-primary focus-visible:text-primary"
+              className="group relative flex w-full items-center gap-2 py-2 pl-2 pr-4 text-left font-gothic text-xl font-medium uppercase tracking-[0.12em] text-foreground/55 transition-colors duration-200 hover:text-primary focus:outline-none focus:text-primary md:text-2xl"
             >
+              {/* Soft feathered glow on hover/focus (no box, no hard edges) */}
+              <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_left,rgba(174,255,62,0.16),transparent_72%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus:opacity-100" />
+              {/* Active marker */}
               <span
                 aria-hidden="true"
-                className="-translate-x-1 text-primary opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+                className="relative w-3 shrink-0 text-base leading-none text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus:opacity-100"
               >
                 &#9656;
               </span>
-              {m.label}
-              <span
-                aria-hidden="true"
-                className="translate-x-1 text-primary opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
-              >
-                &#9666;
-              </span>
+              <span className="relative">{m.label}</span>
             </button>
           </motion.div>
         ))}
