@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Layout } from "@/components/Layout";
+import { IntroSequence } from "@/components/intro/IntroSequence";
 import NotFound from "@/pages/not-found";
 
 // Code-split every route. The 3D viewer chunk is only pulled in by the routes
@@ -40,6 +41,10 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
+          {/* App-entry intro: boot sequence -> title screen. Lives inside the
+              router so its menu can navigate, and overlays the whole site.
+              Plays on every full page load; not persisted across reloads. */}
+          <IntroSequence />
         </BrowserRouter>
         <Toaster />
       </TooltipProvider>

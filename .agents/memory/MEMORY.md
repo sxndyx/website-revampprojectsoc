@@ -1,2 +1,3 @@
 - [R3F viewer robustness](r3f-viewer.md) — detect WebGL synchronously before mounting Canvas; fly-to camera must yield to OrbitControls; local Lightformer env, no network HDR.
 - [Artifact Vite build env](artifact-vite-build.md) — building/previewing a web artifact outside its workflow needs PORT and BASE_PATH env vars or vite.config throws.
+- [Lynx brand logo assets](lynx-brand-assets.md) — lynx-logo.png is the FULL lime lockup (head + baked "LYNX RACING" text); lynx-mark.png is head-only for custom-wordmark lockups.
