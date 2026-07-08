@@ -1,0 +1,109 @@
+{
+  "order": ["full", "battery", "motor", "chassis", "suspension", "aero", "telemetry"],
+  "systems": {
+    "full": {
+      "label": "Full Bike",
+      "code": "LX-00",
+      "status": "IN DEVELOPMENT",
+      "description": "The complete Lynx concept — an original electric superbike built by UNSW students, engineered around race proportions and a high-voltage electric powertrain.",
+      "tags": ["ELECTRIC", "SUPERBIKE", "STUDENT-BUILT"],
+      "specs": [
+        { "label": "Program", "value": "Season 2026" },
+        { "label": "Class", "value": "Electric Superbike" },
+        { "label": "Stage", "value": "Development" }
+      ],
+      "signal": [42, 48, 40, 55, 60, 52, 66, 61, 70, 64, 72, 68],
+      "camera": { "position": [4.9, 2.5, 6.4], "target": [0, 0.85, 0] }
+    },
+    "battery": {
+      "label": "Battery",
+      "code": "LX-11",
+      "status": "DESIGN",
+      "description": "A high-voltage lithium pack mounted as the central stressed mass, packaged low to drop the centre of gravity. Thermal management and BMS are under active design.",
+      "tags": ["HIGH VOLTAGE", "BMS", "THERMAL"],
+      "specs": [
+        { "label": "Architecture", "value": "800V (target)" },
+        { "label": "Chemistry", "value": "Li-ion NMC" },
+        { "label": "Capacity", "value": "~8 kWh (target)" },
+        { "label": "State", "value": "Design" }
+      ],
+      "signal": [30, 55, 48, 62, 58, 70, 65, 78, 72, 80, 76, 84],
+      "camera": { "position": [2.4, 1.4, 4.7], "target": [0.05, 0.68, 0] }
+    },
+    "motor": {
+      "label": "Motor / Drive",
+      "code": "LX-22",
+      "status": "DESIGN",
+      "description": "A liquid-cooled permanent-magnet motor driving the rear wheel through a chain final drive, positioned at the swingarm pivot for optimal mass centralisation.",
+      "tags": ["PMSM", "INVERTER", "CHAIN DRIVE"],
+      "specs": [
+        { "label": "Type", "value": "PMSM (target)" },
+        { "label": "Peak Power", "value": "~120 kW (target)" },
+        { "label": "Final Drive", "value": "Chain" },
+        { "label": "State", "value": "Design" }
+      ],
+      "signal": [20, 40, 35, 60, 75, 68, 88, 82, 95, 90, 84, 92],
+      "camera": { "position": [-3.6, 1.5, 4.3], "target": [-0.95, 0.6, 0] }
+    },
+    "chassis": {
+      "label": "Chassis",
+      "code": "LX-33",
+      "status": "CONCEPT",
+      "description": "An aluminium twin-spar frame using the battery as a stressed member, tuned for the stiffness and geometry an electric race package demands.",
+      "tags": ["TWIN-SPAR", "ALUMINIUM", "GEOMETRY"],
+      "specs": [
+        { "label": "Frame", "value": "Al twin-spar" },
+        { "label": "Wheelbase", "value": "~1430 mm" },
+        { "label": "Rake", "value": "Under study" },
+        { "label": "State", "value": "Concept" }
+      ],
+      "signal": [50, 52, 49, 54, 51, 56, 53, 58, 55, 60, 57, 62],
+      "camera": { "position": [4.5, 2.2, 5.6], "target": [0, 0.95, 0] }
+    },
+    "suspension": {
+      "label": "Suspension",
+      "code": "LX-44",
+      "status": "CONCEPT",
+      "description": "Upside-down front forks and a rear monoshock, fully adjustable to dial in the bike across the range of circuits the team intends to run.",
+      "tags": ["USD FORK", "MONOSHOCK", "ADJUSTABLE"],
+      "specs": [
+        { "label": "Front", "value": "USD fork (target)" },
+        { "label": "Rear", "value": "Monoshock" },
+        { "label": "Travel", "value": "Under study" },
+        { "label": "State", "value": "Concept" }
+      ],
+      "signal": [45, 60, 40, 62, 44, 66, 42, 68, 46, 70, 43, 64],
+      "camera": { "position": [4.3, 1.6, 4.7], "target": [1.15, 0.78, 0] }
+    },
+    "aero": {
+      "label": "Aero / Bodywork",
+      "code": "LX-55",
+      "status": "CONCEPT",
+      "description": "Carbon-composite bodywork with integrated winglets and Lynx claw graphics — an aggressive aero package shaped for stability under hard acceleration.",
+      "tags": ["CARBON", "WINGLETS", "DOWNFORCE"],
+      "specs": [
+        { "label": "Body", "value": "Carbon (target)" },
+        { "label": "Winglets", "value": "Integrated" },
+        { "label": "Drag", "value": "Under study" },
+        { "label": "State", "value": "Concept" }
+      ],
+      "signal": [35, 42, 55, 50, 63, 58, 70, 66, 74, 69, 78, 72],
+      "camera": { "position": [4.9, 1.8, 4.1], "target": [1.2, 1.0, 0] }
+    },
+    "telemetry": {
+      "label": "Telemetry",
+      "code": "LX-66",
+      "status": "PROTOTYPE",
+      "description": "A CAN-bus data platform logging every subsystem to a TFT dash and trackside link, feeding the closed-loop development the whole bike is built around.",
+      "tags": ["CAN BUS", "IMU + GPS", "DATA"],
+      "specs": [
+        { "label": "Bus", "value": "CAN" },
+        { "label": "Dash", "value": "TFT cluster" },
+        { "label": "Sensors", "value": "IMU + GPS" },
+        { "label": "State", "value": "Prototype" }
+      ],
+      "signal": [60, 64, 62, 70, 66, 74, 71, 78, 73, 82, 76, 85],
+      "camera": { "position": [2.9, 2.0, 3.7], "target": [0.7, 1.25, 0] }
+    }
+  }
+}

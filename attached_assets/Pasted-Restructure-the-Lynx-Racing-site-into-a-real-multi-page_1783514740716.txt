@@ -1,0 +1,63 @@
+Restructure the Lynx Racing site into a real multi-page app instead of a single page.
+
+TECH STACK (additions to v1)
+- React Router v6 for routing
+- Code-split each route (React.lazy + Suspense) so the 3D viewer bundle only loads on
+  the pages that need it
+
+NAV BAR (persistent, all pages)
+- Logo + wordmark, left
+- Links: Home, The Bike, Sponsors, Events, Team, Join, Contact
+- "Partner With Us" button, right, links to /sponsors
+
+ROUTES
+
+/  (Home — hero only, nothing else competes with it)
+- Full-bleed section, near-black background (~#05070d).
+- 3D canvas centered/full-bleed behind or beside the text: the Lynx bike, slowly
+  auto-rotating, continuously, with NO drag/orbit/zoom interaction here — it's decorative,
+  like Redback's looping hero video, not a tool. Disable pointer/orbit handlers entirely
+  on this page.
+- Overlay text: small uppercase eyebrow ("UNSW · Student-Built · Electric Racing"), a large
+  heading ("Lynx Racing"), a one-sentence mission line, and a single CTA button
+  ("Explore the Bike" -> /the-bike).
+- A small stat row under or near the hero — Voltage / Status / Mode — same live values as
+  before. Keep these honest to the team's actual current stage (development/testing), the
+  way Redback shows real competition results — don't invent race results Lynx hasn't
+  earned yet.
+- Below the hero, three link-out cards, mirroring Redback's "Join Our Team / Support Us /
+  Who Are We" pattern:
+  - "The Bike" -> /the-bike — see the full engineering breakdown
+  - "Partner With Us" -> /sponsors — sponsorship pitch
+  - "Join the Team" -> /join — recruitment
+  Each card: one photo/graphic, a short heading, one sentence of body copy, one link.
+- A sponsor logo strip: "Our Sponsors" heading, a row of logos (grayscale, brighten on
+  hover), "View All" link to /sponsors. Use placeholder logo marks until real ones exist.
+- A mailing list signup strip: first name / last name / email / submit, same pattern as
+  Redback's footer signup.
+- Footer: social icons, copyright line.
+
+/the-bike  (everything from the v1 spec lives here now)
+- The subsystem tab bar: Full Bike, Battery, Motor/Drive, Chassis, Suspension,
+  Aero/Bodywork, Telemetry.
+- Left info panel (module status, heading/description per tab, tag pills, sparkline).
+- The full interactive 3D viewer: orbit + zoom enabled, camera presets per tab, subsystem
+  highlighting/dimming — exactly as specced in v1, including subsystemMap.json and the
+  procedural-placeholder fallback if lynx-bike.glb is missing.
+- Bottom live stats bar (Voltage/Status/Mode/System).
+
+/sponsors, /events, /team, /join, /contact
+- Simple content pages for now, same dark/neon design tokens as the rest of the site.
+- /sponsors: grid of sponsor tiers/logos, contact CTA.
+- /team: grid of member cards (photo, name, role).
+- /join: what departments exist, how/when recruitment opens, CTA to apply.
+- /contact: short form (name, email, message) + socials.
+- Not the focus of this pass — structure and style them consistently, keep content minimal
+  and easy to expand later.
+
+DESIGN CARRYOVERS FROM REDBACK (reinterpreted in Lynx's palette, not copied verbatim)
+- Confident, short stat callouts near the hero rather than paragraphs of self-description.
+- One clear photo/graphic + one sentence + one link per card — resist the urge to add more
+  per card.
+- A single unmistakable CTA per section, never two competing ones.
+- Mailing-list capture as a first-class homepage element, not buried in the footer only.

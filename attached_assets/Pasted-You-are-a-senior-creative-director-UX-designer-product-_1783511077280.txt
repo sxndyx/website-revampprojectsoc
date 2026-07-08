@@ -1,0 +1,368 @@
+You are a senior creative director, UX designer, product designer and front-end engineer.
+
+Your goal is not to make a generic Formula Student website.
+
+You are designing a premium website for UNSW Lynx Racing, a student team building a high-performance electric superbike.
+
+The website should feel like a mixture of
+
+Apple
+Porsche
+Ducati
+Tesla
+Nothing
+Cyberpunk UI
+Formula E
+Honda Racing
+
+while remaining clean and modern.
+
+CURRENT PROBLEMS
+
+The current implementation has several issues.
+
+Navigation
+
+I really like the navigation bar from the current design.
+
+Keep it almost exactly the same.
+
+It should exist globally across every page.
+
+It includes
+
+Lynx logo on left
+centred navigation
+About
+Team
+Media
+Sponsors
+Contact
+Join Us CTA on right
+
+The spacing, proportions and simplicity are already good.
+
+Do NOT redesign this.
+
+Use it throughout the entire website.
+
+Hero Visualiser
+
+The current visualiser is unacceptable.
+
+It looks nothing like a motorcycle.
+
+It looks like random geometric shapes.
+
+Instead, rebuild the visualiser completely.
+
+New Visualiser Requirements
+
+Model the visualiser around the silhouette and proportions of the Honda CBR1000RR-R Fireblade.
+
+Do NOT literally copy Honda branding.
+
+Instead:
+
+Create an original futuristic electric superbike inspired by
+
+Fireblade proportions
+aggressive fairings
+low race stance
+aerodynamic body
+race ergonomics
+
+The silhouette should instantly read as
+
+"Superbike"
+
+rather than
+
+"abstract geometry."
+
+Lynx Styling
+
+The motorcycle should become a Lynx Racing motorcycle.
+
+Use the Lynx branding everywhere.
+
+Examples
+
+Lynx claw graphics
+Lynx face integrated into fairings
+subtle Lynx logo embossing
+Lynx-inspired vents
+geometric claw patterns
+green illuminated accents
+purple illuminated accents
+glowing LED trim
+racing decals
+
+The motorcycle should look like a concept superbike designed specifically for Lynx Racing.
+
+Colour Palette
+
+Primary background
+
+Near-black
+
+Very dark navy
+
+Almost black purple
+
+Accent colours
+
+Lynx Green
+
+Lynx Purple
+
+White
+
+Very subtle grey
+
+Use gradients sparingly.
+
+No rainbow effects.
+
+No bright neon overload.
+
+Think
+
+high-end
+
+clean
+
+premium
+
+technical.
+
+Visual Language
+
+The entire website should feel like an engineering dashboard.
+
+Use
+
+technical overlays
+
+grid backgrounds
+
+thin construction lines
+
+HUD labels
+
+coordinate markers
+
+measurement indicators
+
+system status labels
+
+blueprint elements
+
+CAD-inspired graphics
+
+without making the page busy.
+
+Everything should feel intentional.
+
+Hero Animation
+
+The motorcycle should have subtle animations.
+
+Ideas
+
+soft breathing glow
+
+wheel illumination
+
+animated scan lines
+
+battery pulse
+
+suspension movement
+
+slow camera parallax
+
+spec callouts
+
+hover interactions
+
+animated HUD labels
+
+No gimmicks.
+
+Everything should feel premium.
+
+Website Theme
+
+This is not a university club website.
+
+It should feel like
+
+an EV startup
+
+a racing team
+
+an aerospace company
+
+a high-performance engineering company
+
+combined together.
+
+The website should immediately communicate
+
+innovation
+
+precision
+
+speed
+
+engineering excellence.
+
+Typography
+
+Large bold headings.
+
+Heavy geometric sans serif.
+
+Clean body typography.
+
+Large spacing.
+
+Minimal clutter.
+
+Strong hierarchy.
+
+Buttons
+
+Buttons should feel mechanical.
+
+Use
+
+sharp corners
+
+thin outlines
+
+soft glows
+
+subtle hover animations
+
+expanding borders
+
+directional arrows
+
+micro interactions
+
+Sections
+
+Maintain the current page structure but significantly improve every section.
+
+Examples
+
+About
+
+Timeline
+
+Our Bike
+
+Engineering
+
+Departments
+
+Team
+
+Sponsors
+
+Media
+
+Contact
+
+Apply
+
+Every section should feel premium.
+
+Use Lynx Branding Heavily
+
+The Lynx logo should become a major visual element.
+
+Use it creatively.
+
+Ideas
+
+background watermark
+
+large outline logo
+
+embossed graphics
+
+HUD iconography
+
+claw patterns
+
+section dividers
+
+loading animation
+
+animated SVG
+
+corner details
+
+fairing graphics
+
+Do NOT just place the logo in the header.
+
+Make it feel like the identity of the entire website.
+
+Design Principles
+
+Prioritise
+
+clarity
+
+contrast
+
+motion
+
+depth
+
+precision
+
+alignment
+
+negative space
+
+consistency
+
+premium feel
+
+Every pixel should appear intentional.
+
+Technical Expectations
+
+Produce production-quality React components.
+
+Use
+
+TailwindCSS
+Framer Motion
+Lucide Icons
+SVG graphics where appropriate
+Responsive layouts
+Component architecture
+Reusable animations
+Clean code
+
+Avoid placeholder-looking UI.
+
+Avoid generic templates.
+
+Avoid cartoon styling.
+
+Avoid low-detail illustrations.
+
+Final Goal
+
+When someone lands on the homepage, their first thought should be:
+
+"This looks like the website of a professional electric superbike manufacturer—not a university student project."
+
+Every design decision should reinforce that impression.

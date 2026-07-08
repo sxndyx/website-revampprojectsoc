@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Lynx Racing"
+version = "1.0.0"
+id = "artifacts/lynx-racing"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19826
+
+[services.development]
+run = "pnpm --filter @workspace/lynx-racing run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/lynx-racing", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/lynx-racing/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19826"
+BASE_PATH = "/"

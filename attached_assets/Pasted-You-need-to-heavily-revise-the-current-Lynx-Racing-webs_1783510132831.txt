@@ -1,0 +1,619 @@
+You need to heavily revise the current Lynx Racing website. The current version is not acceptable.
+
+The brief was:
+- UNSW Lynx Racing electric motorcycle racing website
+https://www.lynxracing.com.au/about
+- dark, immersive, Hound Archives-inspired
+- must retain the Lynx green and purple colour scheme, integrating the lynx logo heavily similar to Hound archives website themes
+- must include a dynamic motorbike visualiser that actually looks like a racing motorcycle, similaer to the Honda CBR FireBlade but without the logo and lime green and purple colour scheme
+- must feel like an electric motorcycle startup/race team, not a generic blue SaaS dashboard
+
+The current site has several major issues:
+1. The colour scheme is wrong. It is mostly cyan/blue. Replace this with the Lynx green + purple identity.
+2. The visualiser does not look like a real motorbike. It looks like a simplified bicycle/scooter diagram. Rebuild it properly.
+3. The design is too static. Add dynamic motion, layered depth, scroll effects, parallax, animated UI states, and Hound-esque interface drama.
+4. The page feels generic after the hero. Every section needs stronger identity.
+5. The website must feel like entering an electric race garage / game hub / prototype archive.
+
+Do not make small surface tweaks. This is a major visual correction.
+
+====================================================
+ABSOLUTE DESIGN RULES
+====================================================
+
+The website must now use the Lynx green and purple colourway as the core identity.
+
+Use this palette unless the existing Lynx site provides exact colours:
+
+Void Black: #030305
+Deep Black: #07070B
+Carbon Charcoal: #101015
+Dark Purple: #1A072A
+Deep Violet: #2B0A4A
+Lynx Purple: #7B2CFF
+Electric Violet: #A855F7
+Lynx Green: #A8FF3E
+Venom Green: #7CFF00
+Acid Green: #B6FF4A
+Soft White: #F7F7F2
+Steel Grey: #A8A8B3
+
+Colour rules:
+- Purple and green are the hero colours.
+- Purple should create the atmosphere, shadows, gradients, and aura.
+- Green should be used for active states, energy pulses, highlights, selected nav, CTAs, telemetry lines, and glow accents.
+- Cyan/blue must be removed or reduced to near-zero.
+- Do not use generic tech-blue as the brand colour.
+- Do not use a random rainbow gradient.
+- The visual tone should be black + purple atmosphere + electric green aggression.
+
+The new site should feel:
+- darker
+- sharper
+- more animated
+- more aggressive
+- more motorsport-specific
+- more Hound-esque
+- less corporate
+- less generic
+- less “tech SaaS”
+- more like an interactive electric superbike garage
+
+====================================================
+REBUILD THE VISUALISER PROPERLY
+====================================================
+
+The current motorbike visualiser is unacceptable. Rebuild it from scratch.
+
+It must look like an actual electric racing motorcycle / sportbike silhouette.
+
+The bike graphic must include:
+- two proper sportbike wheels
+- realistic wheelbase
+- front forks with rake angle
+- rear swingarm
+- central frame
+- battery pack in the frame area
+- motor near lower centre/rear
+- sportbike fairing
+- windscreen
+- clip-on handlebars
+- seat
+- sharp tail section
+- front brake disc
+- rear brake disc
+- chain/belt line or drivetrain indication
+- bodywork panels
+- low aggressive stance
+
+Do not draw it like:
+- a bicycle
+- a scooter
+- a toy
+- a generic diagram
+- a random rounded object
+- a tiny wireframe
+
+If no 3D model is available, build a premium 2.5D SVG/CSS visualiser with layered motorcycle geometry.
+
+The bike should be large, dramatic, and central. It should be the signature feature of the website.
+
+Visualiser style:
+- black carbon body
+- purple underglow
+- green electric trace lines
+- glowing wheel rims
+- animated battery pulse
+- motor pulse
+- scanning line across the bike
+- rotating telemetry arcs around wheels
+- selected component glows green
+- inactive components remain dark purple/grey
+- hotspot labels feel like game/HUD markers
+
+Required visualiser modes:
+1. Full Bike
+2. Battery
+3. Motor / Drivetrain
+4. Chassis
+5. Suspension
+6. Aero / Bodywork
+7. Controls / Telemetry
+
+Each mode must:
+- highlight the relevant bike part
+- animate that part
+- update the side panel
+- show short technical information
+- show status chips
+- show a small animated telemetry graph or pulse line
+
+Use these modules:
+
+Battery:
+Title: High-Voltage Battery Pack
+Description: Energy storage packaged for safety, access, cooling, and race-day serviceability.
+Tags: HV, Packaging, Cooling, Safety
+
+Motor / Drivetrain:
+Title: Electric Drive Unit
+Description: Torque delivery, drivetrain packaging, and throttle response for track use.
+Tags: Torque, Drive, Inverter, Response
+
+Chassis:
+Title: Structural Frame
+Description: Frame layout balancing stiffness, weight, battery packaging, suspension loads, and rider ergonomics.
+Tags: Structure, CAD, Load Path, Ergonomics
+
+Suspension:
+Title: Race Suspension Geometry
+Description: Front and rear geometry shaped around braking stability, corner entry, mechanical grip, and adjustability.
+Tags: Fork, Swingarm, Grip, Setup
+
+Aero / Bodywork:
+Title: Race Fairing Package
+Description: Bodywork shaped for identity, airflow, cooling access, and a sharper electric superbike profile.
+Tags: Fairing, Cooling, Drag, Identity
+
+Controls / Telemetry:
+Title: Rider Controls & Telemetry
+Description: Sensor logging and cockpit systems for rider inputs, system health, testing, and development feedback.
+Tags: Data, Sensors, Cockpit, Testing
+
+Interaction requirements:
+- Hovering hotspots previews a system.
+- Clicking locks the active system.
+- Active hotspot pulses green.
+- Active component glows green/purple.
+- Module tabs animate like a game menu.
+- Bike has subtle idle animation.
+- Mouse movement creates parallax.
+- On mobile, use horizontal tabs and tap interactions.
+- The system panel must feel like a racing garage display, not a basic card.
+
+Visualiser layout:
+- Large bike graphic on the right or centre.
+- System information panel overlapping but not hiding the important bike shape.
+- Module tabs above or beside the visualiser.
+- Telemetry/status strip below:
+  - VOLTAGE: TBC
+  - STATUS: DEVELOPMENT
+  - MODE: GARAGE VIEW
+  - SYSTEM: active system
+- Background behind the bike should be a purple-black garage grid with animated green energy lines.
+
+====================================================
+MAKE IT MORE HOUND-ESQUE
+====================================================
+
+The current site is too clean and rectangular. Add more Hound-inspired atmosphere, but translate it into Lynx motorsport language.
+
+Use:
+- title-screen / garage boot feeling
+- immersive dark full-screen sections
+- animated interface panels
+- irregular dark brush/paint masks but adapted as carbon/energy streaks
+- glowing active menu states
+- layered parallax background
+- cinematic empty space
+- character-machine focus, with the bike as the “main character”
+- mission-board style events
+- sponsor bay style partner section
+- garage archive style bike page
+- animated route/page transitions
+- section labels that feel like game interface states
+
+Do not use:
+- parchment
+- fantasy icons
+- dog characters
+- medieval/fantasy styling
+- generic blue HUD
+- plain cards on a grid
+
+Translate Hound style like this:
+- Hound title screen becomes Lynx boot-up garage screen.
+- Hound marketplace becomes sponsor/parts bay.
+- Hound quest board becomes events/milestone board.
+- Hound guide dialogue becomes engineering system guide.
+- Hound world map becomes race calendar and event map.
+- Hound character focus becomes electric bike focus.
+- Hound parchment panels become carbon fibre, purple glass, and green telemetry panels.
+
+====================================================
+HERO SECTION REWORK
+====================================================
+
+The hero needs to feel like a powered-on electric superbike garage.
+
+Hero headline:
+LYNX RACING
+
+Supporting line:
+UNSW ELECTRIC MOTORCYCLE RACING
+
+Hero copy:
+A student-built electric motorcycle racing team designing the next generation of lightweight electric performance at UNSW.
+
+Primary CTA:
+ENTER THE GARAGE
+
+Secondary CTA:
+PARTNER WITH US
+
+Third CTA:
+JOIN THE TEAM
+
+Hero visual:
+- Large realistic electric race bike silhouette or render-style graphic.
+- Purple-black garage background.
+- Green energy pulse from battery to motor.
+- Animated smoke/mist near the ground.
+- Track map lines in the background.
+- Purple glow behind the bike.
+- Green active lights along the bike.
+- Scanline reveal on load.
+
+Hero animation:
+- Boot screen says: LYNX SYSTEM ONLINE.
+- Bike silhouette powers on.
+- Green lines trace through the motorbike.
+- Headline fades in after scan.
+- Navigation appears with a subtle glitch/energy reveal.
+- CTA buttons pulse once, then remain stable.
+
+====================================================
+HEADER REWORK
+====================================================
+
+Current header is okay structurally, but wrong visually.
+
+Update:
+- black/purple glass background
+- green active indicator
+- purple border glow
+- green hover underline
+- CTA uses green/purple gradient, not cyan/blue
+- logo mark should glow green/purple
+- no blue button
+
+Nav:
+Home
+The Bike
+Sponsors
+Events
+Team
+Join
+Contact
+
+CTA:
+PARTNER WITH US
+
+====================================================
+SECTION DESIGN REWORK
+====================================================
+
+Every section needs a stronger visual concept.
+
+1. Interactive Motorbike Visualiser
+Make this the most impressive part after the hero. It should feel like a live garage system display.
+
+2. About
+Rename visual label:
+GARAGE BRIEFING
+
+Heading:
+BUILT BY STUDENTS. TUNED FOR ELECTRIC SPEED.
+
+Use a two-column layout:
+- left: strong copy
+- right: animated cards showing Engineering, Racing, Sponsors, Media
+
+3. Engineering Modules
+Rename visual label:
+SYSTEM ARCHIVE
+
+These cards should look like machine modules, not generic rectangles.
+Each card should have:
+- purple glass background
+- green top line
+- small animated circuit trace
+- hover expansion
+- “status” badge
+
+Modules:
+- Battery Architecture
+- Motor & Inverter
+- Chassis / Frame
+- Suspension Geometry
+- Controls & Telemetry
+- Bodywork / Aero
+
+4. Events
+Rename visual label:
+MISSION BOARD
+
+Cards should look like active missions:
+- Recruitment Night
+- Bike Reveal
+- Sponsor Showcase
+- Workshop Open Night
+- Testing Milestone
+- Engineering Expo
+
+Use:
+- green “ACTIVE”
+- purple “TBC”
+- amber “UPCOMING”
+- animated event cards
+- hover scan effect
+
+5. Sponsors
+Rename visual label:
+PARTNER BAY
+
+This must be sponsor-ready and serious, but still visually strong.
+
+Use:
+- dark premium section
+- purple gradient background
+- green CTA
+- clean tier cards
+- sponsor logo slots
+- “Your logo on the machine” visual callout
+- partnership benefits
+
+Do not make sponsors look like plain grey cards.
+
+6. Join
+Rename visual label:
+JOIN THE GRID
+
+Make it feel exciting for students:
+- division cards
+- animated role cards
+- green/purple hover states
+- CTA form
+
+Divisions:
+Mechanical
+Electrical
+Software / Telemetry
+Business
+Media
+Sponsorship
+Operations
+
+7. Mailing List
+Rename visual label:
+BUILD SIGNAL
+
+Make it feel like users are subscribing to a race-team transmission:
+- green glow input
+- purple panel
+- animated signal wave
+- success state: SIGNAL LOCKED
+
+====================================================
+DYNAMIC WEBSITE REQUIREMENTS
+====================================================
+
+The site must feel alive.
+
+Add these dynamic elements:
+- boot-up loading animation
+- scroll-triggered section reveals
+- parallax garage background layers
+- mouse-following glow
+- animated purple/green gradient aura
+- moving track-map lines
+- animated telemetry graphs
+- active nav section detection
+- bike power-on animation
+- hotspot pulses
+- animated event cards
+- sponsor card hover effects
+- timeline animations
+- mailing list success animation
+- route/page transition animation
+- mobile menu full-screen animated overlay
+
+Use Framer Motion where appropriate.
+Use CSS keyframes where lighter.
+Use IntersectionObserver or Framer Motion viewport animations for reveals.
+Respect prefers-reduced-motion.
+
+Avoid:
+- cheesy bounce effects
+- random spinning icons
+- excessive flashing
+- laggy animation
+- animation that hides content
+
+Motion style:
+- sharp
+- electric
+- precise
+- mechanical
+- fast but controlled
+
+====================================================
+VISUAL QUALITY BAR
+====================================================
+
+The final result must not look like a generic template.
+
+It should look like:
+- a premium electric motorcycle racing website
+- a digital garage
+- a prototype showcase
+- a sponsor-ready team site
+- a Hound-inspired interactive experience
+- a website someone would actually stop and explore
+
+The homepage should have more depth:
+- foreground panels
+- midground bike/garage elements
+- background track maps/grid
+- animated glow layers
+- content that slides/reveals with purpose
+
+Fix the current scale issues:
+- some sections feel too empty
+- some cards are too small
+- text blocks are awkwardly spaced
+- visualiser is not dominant enough
+- sponsor section is bland
+- footer feels generic
+
+====================================================
+REAL MOTORBIKE VISUAL LANGUAGE
+====================================================
+
+Use real sportbike proportions.
+
+The silhouette should resemble an electric racing motorcycle, closer to:
+- MotoE bike
+- prototype electric superbike
+- aggressive track bike
+- low front fairing
+- raised tail
+- compact cockpit
+- large wheels
+- visible forks and swingarm
+
+Key geometry:
+- front wheel should sit forward under nose fairing
+- rear wheel should sit under tail/swingarm
+- seat should be high and stepped
+- tank/fairing mass should slope forward
+- front fairing should point down/forward
+- windscreen should sit above front fairing
+- central battery pack should occupy frame triangle
+- motor should sit low and slightly rearward
+- swingarm should connect rear axle to frame
+- forks should angle back slightly from front wheel to cockpit
+
+This must be much more realistic than the current visualiser.
+
+====================================================
+PAGE-SPECIFIC COLOUR CORRECTION
+====================================================
+
+Home:
+Black/purple base. Green energy accents.
+
+The Bike:
+Deep technical purple garage interface. Green active system highlights.
+
+Sponsors:
+More professional. Purple-black premium panels. Green CTA. White readable text.
+
+Events:
+Mission-board style. Purple cards. Green active states. Amber date tags.
+
+Team:
+Dark team archive. Green division tags. Purple hover panels.
+
+Join:
+High-energy recruitment. Purple/green CTAs. Animated role cards.
+
+Contact:
+Clean but still themed. Purple glass form. Green focus states.
+
+====================================================
+COPY IMPROVEMENT
+====================================================
+
+Replace weak/generic copy with sharper wording.
+
+Use these examples:
+
+Hero:
+LYNX RACING
+UNSW ELECTRIC MOTORCYCLE RACING
+A student-built electric race bike program pushing engineering, design, business, and media into one live machine.
+
+About:
+We are building more than a bike. Lynx is a student-run electric racing platform where mechanical, electrical, software, business, and media students turn theory into hardware, testing, sponsorship, and public-facing motorsport.
+
+Visualiser:
+Explore the race bike as a system. Select the battery, drivetrain, chassis, suspension, bodywork, and telemetry layers to see how the prototype comes together.
+
+Sponsors:
+Help build the machine, not just the logo wall. Lynx partners support real student engineering, practical manufacturing, public showcases, and the future of electric motorsport at UNSW.
+
+Join:
+Bring your discipline to the grid. Whether you design parts, write software, pitch sponsors, run events, shoot media, or manage operations, there is a place in the garage.
+
+Mailing list:
+Track the build archive. Get recruitment windows, event drops, sponsor updates, and prototype progress notes when the team has something worth showing.
+
+====================================================
+TECHNICAL REQUIREMENTS
+====================================================
+
+Fix:
+- all console errors
+- all dead buttons
+- all broken links
+- all layout overflow
+- mobile responsiveness
+- weak contrast
+- small unreadable text
+- cyan/blue colour remnants
+- static generic sections
+- low-quality visualiser
+
+Maintain:
+- clean component structure
+- TypeScript safety
+- responsive layout
+- accessible buttons/forms
+- keyboard navigation
+- reduced motion support
+
+If the current implementation uses data arrays, update the data but keep the component structure clean.
+
+Suggested components:
+- BootScreen
+- Header
+- HeroGarage
+- BikeVisualizer
+- BikeSVG
+- BikeHotspot
+- SystemPanel
+- GarageBriefing
+- SystemArchive
+- MissionBoard
+- PartnerBay
+- JoinGrid
+- BuildSignalForm
+- Footer
+- PageShell
+- GlowButton
+- CarbonPanel
+- AnimatedTrackMap
+- MouseGlow
+- TelemetryStrip
+
+====================================================
+FINAL ACCEPTANCE CRITERIA
+====================================================
+
+The revised site is only acceptable if:
+
+1. The green and purple colour scheme is obvious within 2 seconds.
+2. The visualiser clearly looks like a real sport/race motorbike.
+3. The website feels dynamic, animated, and alive.
+4. The site feels Hound-esque in layout, mood, and interaction, without copying Hound assets.
+5. The hero, bike page, sponsor page, events page, join page, and mailing list all feel like part of the same world.
+6. Sponsor content feels credible enough for real companies.
+7. Students can quickly find how to join.
+8. Users can quickly find events and subscribe.
+9. The site does not feel like a generic dark tech template.
+10. The motorcycle is the hero.
+
+note: when i mention Hound i mean their website:
+
+https://houndarchives.com/?srsltid=AfmBOoqnQCzNqYv4RkoOPpzGjP29sAA8ChqWrENrNpzf-guuacXPMydD
