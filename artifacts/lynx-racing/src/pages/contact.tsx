@@ -1,11 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Mail, MapPin, Instagram, Linkedin } from "lucide-react";
+import { ArrowRight, Check, MapPin, Instagram, Linkedin } from "lucide-react";
+import { useSeo } from "@/hooks/useSeo";
 import { SectionHeader } from "@/components/SectionHeader";
 
 const SUBJECTS = ["Sponsorship", "Joining the team", "Media / Press", "General enquiry"];
 
 export default function Contact() {
+  useSeo({
+    title: "Contact",
+    description:
+      "Get in touch with UNSW Lynx Racing — for sponsorship, recruitment, media or anything about the electric superbike build.",
+  });
+
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: SUBJECTS[0], message: "" });
 
@@ -16,11 +23,11 @@ export default function Contact() {
   };
 
   const field =
-    "w-full bg-background border border-border focus:border-primary/70 outline-none px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground/50 transition-colors rounded-none focus:box-glow-green";
+    "w-full rounded-none border border-border bg-background px-4 py-3 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-primary/70";
 
   return (
-    <div className="pt-20">
-      <section className="container mx-auto px-6 lg:px-12 py-16 md:py-24">
+    <div>
+      <section className="container mx-auto px-6 py-16 md:py-24 lg:px-12">
         <SectionHeader
           code="CONTACT"
           title="Get in Touch"
@@ -28,29 +35,32 @@ export default function Contact() {
         />
       </section>
 
-      <section className="container mx-auto px-6 lg:px-12 pb-28">
-        <div className="grid lg:grid-cols-[1fr_360px] gap-px bg-border/40 border border-border/40">
+      <section className="container mx-auto px-6 pb-28 lg:px-12">
+        <div className="grid gap-px border border-border/40 bg-border/40 lg:grid-cols-[1fr_360px]">
           {/* Form */}
           <div className="bg-background p-8 md:p-12">
             {sent ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="h-full flex flex-col items-center justify-center text-center gap-5 py-16"
+                className="flex h-full flex-col items-center justify-center gap-5 py-16 text-center"
               >
-                <span className="w-14 h-14 flex items-center justify-center bg-primary text-background">
+                <span className="flex h-14 w-14 items-center justify-center bg-primary text-background">
                   <Check size={28} />
                 </span>
-                <h3 className="font-display font-extrabold uppercase text-2xl">Message sent</h3>
-                <p className="text-muted-foreground font-mono text-sm max-w-sm">
+                <h3 className="font-display text-2xl font-extrabold uppercase">Message sent</h3>
+                <p className="max-w-sm font-mono text-sm text-muted-foreground">
                   Thanks for reaching out. We'll get back to you from the garage as soon as we can.
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={onSubmit} className="space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
+                <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="contact-name" className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground block mb-2">
+                    <label
+                      htmlFor="contact-name"
+                      className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+                    >
                       Name
                     </label>
                     <input
@@ -62,7 +72,10 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="contact-email" className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground block mb-2">
+                    <label
+                      htmlFor="contact-email"
+                      className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+                    >
                       Email
                     </label>
                     <input
@@ -77,7 +90,10 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-subject" className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground block mb-2">
+                  <label
+                    htmlFor="contact-subject"
+                    className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+                  >
                     Subject
                   </label>
                   <select
@@ -95,7 +111,10 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label htmlFor="contact-message" className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground block mb-2">
+                  <label
+                    htmlFor="contact-message"
+                    className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+                  >
                     Message
                   </label>
                   <textarea
@@ -110,53 +129,53 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="group inline-flex items-center gap-3 bg-primary text-background font-display font-bold uppercase tracking-widest px-8 py-4 hover:bg-primary/90 transition-colors box-glow-green"
+                  className="group inline-flex items-center gap-3 bg-primary px-8 py-4 font-display font-bold uppercase tracking-widest text-background transition-colors hover:bg-primary/90"
                 >
                   Send message
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
                 </button>
               </form>
             )}
           </div>
 
           {/* Info */}
-          <aside className="bg-[#07070c] p-8 md:p-12 flex flex-col gap-8">
+          <aside className="flex flex-col gap-8 bg-[#0a0a0d] p-8 md:p-12">
             <div>
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary">Reach us</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+                Reach us
+              </span>
               <div className="mt-5 space-y-5">
-                <a href="mailto:hello@lynxracing.com" className="flex items-start gap-3 group">
-                  <Mail size={18} className="text-primary mt-0.5" />
-                  <div>
-                    <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider">Email</p>
-                    <p className="font-display font-semibold group-hover:text-primary transition-colors">
-                      hello@lynxracing.com
-                    </p>
-                  </div>
-                </a>
                 <div className="flex items-start gap-3">
-                  <MapPin size={18} className="text-primary mt-0.5" />
+                  <MapPin size={18} className="mt-0.5 text-primary" />
                   <div>
-                    <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider">Based at</p>
+                    <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                      Based at
+                    </p>
                     <p className="font-display font-semibold">UNSW Sydney, Kensington</p>
                   </div>
                 </div>
+                <p className="text-sm font-light leading-relaxed text-muted-foreground">
+                  The fastest way to reach the team is the form or a DM — we'll reply from the garage.
+                </p>
               </div>
             </div>
 
             <div className="border-t border-border pt-8">
-              <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-primary">Follow</span>
-              <div className="flex gap-3 mt-4">
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+                Follow
+              </span>
+              <div className="mt-4 flex gap-3">
                 {[
-                  { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
-                  { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+                  { icon: Instagram, href: "https://instagram.com/unswlynxracing", label: "Instagram — @unswlynxracing" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/company/unsw-lynx-racing", label: "LinkedIn — UNSW Lynx Racing" },
                 ].map((s) => (
                   <a
                     key={s.label}
                     href={s.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noreferrer noopener"
                     aria-label={s.label}
-                    className="w-11 h-11 flex items-center justify-center border border-border text-muted-foreground hover:text-primary hover:border-primary/60 hover:box-glow-green transition-all"
+                    className="flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
                   >
                     <s.icon size={18} />
                   </a>
@@ -164,9 +183,9 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="mt-auto font-mono text-[10px] tracking-widest uppercase text-muted-foreground/50">
+            <div className="mt-auto font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
               <p>LX-CONCEPT / 2026</p>
-              <p className="text-primary/60 mt-1">Response within ~48h</p>
+              <p className="mt-1 text-primary/60">Response within ~48h</p>
             </div>
           </aside>
         </div>

@@ -1,29 +1,30 @@
-export interface Sponsor {
-  name: string;
-  tier: "Technical" | "Gold" | "Silver" | "Community";
-}
-
-export const SPONSORS: Sponsor[] = [
-  { name: "VOLTCORE", tier: "Technical" },
-  { name: "APEX COMPOSITES", tier: "Technical" },
-  { name: "MERIDIAN EV", tier: "Gold" },
-  { name: "NORTHWIND", tier: "Gold" },
-  { name: "DRIVETRAIN LABS", tier: "Silver" },
-  { name: "IONFLUX", tier: "Silver" },
-  { name: "CARBON9", tier: "Silver" },
-  { name: "CAMPUS MAKERS", tier: "Community" },
-  { name: "GRID SUPPLY CO", tier: "Community" },
-  { name: "UNSW ENGINEERING", tier: "Community" },
-];
+export type SponsorTier = "Technical" | "Gold" | "Silver" | "Community";
 
 export const SPONSOR_TIERS: {
-  tier: Sponsor["tier"];
+  tier: SponsorTier;
   blurb: string;
+  slots: string;
 }[] = [
-  { tier: "Technical", blurb: "Core engineering partners supplying the hardware and expertise the bike is built on." },
-  { tier: "Gold", blurb: "Major backers powering the build season from concept to track." },
-  { tier: "Silver", blurb: "Supporting partners helping us close the gap between design and reality." },
-  { tier: "Community", blurb: "Institutions and local partners championing student motorsport." },
+  {
+    tier: "Technical",
+    blurb: "Core engineering partners supplying the hardware and expertise the bike is built on.",
+    slots: "Founding slots open",
+  },
+  {
+    tier: "Gold",
+    blurb: "Major backers powering the build season from concept to track.",
+    slots: "Founding slots open",
+  },
+  {
+    tier: "Silver",
+    blurb: "Supporting partners helping us close the gap between design and reality.",
+    slots: "Founding slots open",
+  },
+  {
+    tier: "Community",
+    blurb: "Institutions and local partners championing student motorsport.",
+    slots: "Welcoming partners",
+  },
 ];
 
 export interface RaceEvent {
@@ -42,25 +43,6 @@ export const EVENTS: RaceEvent[] = [
   { name: "Electric Race Debut", location: "To Be Confirmed", date: "2027", type: "Competition", status: "TBC" },
 ];
 
-export interface Member {
-  name: string;
-  role: string;
-  dept: string;
-}
-
-export const TEAM: Member[] = [
-  { name: "A. Nguyen", role: "Team Principal", dept: "Leadership" },
-  { name: "M. Cho", role: "Technical Director", dept: "Leadership" },
-  { name: "S. Patel", role: "Powertrain Lead", dept: "Powertrain" },
-  { name: "J. Reyes", role: "Battery Lead", dept: "Battery" },
-  { name: "K. O'Brien", role: "Chassis Lead", dept: "Chassis" },
-  { name: "L. Zhang", role: "Suspension Lead", dept: "Suspension" },
-  { name: "T. Kaur", role: "Aerodynamics Lead", dept: "Aerodynamics" },
-  { name: "D. Martin", role: "Electronics Lead", dept: "Electronics" },
-  { name: "R. Ali", role: "Software Lead", dept: "Software" },
-  { name: "E. Costa", role: "Operations Lead", dept: "Business" },
-];
-
 export interface Department {
   name: string;
   blurb: string;
@@ -77,7 +59,7 @@ export const DEPARTMENTS: Department[] = [
   },
   {
     name: "Battery",
-    blurb: "Cell selection, pack architecture, BMS and thermal management for an 800V system.",
+    blurb: "Cell selection, pack architecture, BMS and thermal management for a high-voltage system.",
     skills: ["Elec Eng", "Thermal", "Embedded"],
     commitment: "8–12 hrs / week",
   },

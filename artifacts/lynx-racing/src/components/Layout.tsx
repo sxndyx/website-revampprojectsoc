@@ -1,23 +1,22 @@
-import { Suspense, useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { Header } from "./Header";
-import { Footer } from "./Footer";
+import { Suspense, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { TopBar } from "./nav/TopBar";
+import { MenuOverlay } from "./nav/MenuOverlay";
+import { Footer } from "./nav/Footer";
 import { PageLoader } from "./PageLoader";
-
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [pathname]);
-  return null;
-}
+import { CustomCursor } from "./fx/CustomCursor";
+import { HudIntro } from "./intro/HudIntro";
 
 export function Layout() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <ScrollToTop />
-      <Header />
-      <main className="flex-1 flex flex-col">
+    <div className="flex min-h-screen flex-col bg-base text-ink">
+      <HudIntro />
+      <CustomCursor />
+      <TopBar onOpenMenu={() => setMenuOpen(true)} />
+      <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <main className="flex flex-1 flex-col pt-16">
         <Suspense fallback={<PageLoader />}>
           <Outlet />
         </Suspense>

@@ -5,6 +5,8 @@ description: Non-obvious lessons for embedding a React Three Fiber viewer in a w
 
 # React Three Fiber viewer robustness
 
+> NOTE: Lynx Racing no longer ships a 3D viewer — its bike is now a 2D render (see `lynx-design-system.md`). The lessons below are retained as GENERAL React Three Fiber guidance for any future 3D work in this repl.
+
 ## Detect WebGL synchronously, before mounting `<Canvas>`
 Decide WebGL support in a **lazy `useState` initializer** (runs during first render) and only render `<Canvas>` when it returns true. Do NOT gate on a `useEffect` check.
 

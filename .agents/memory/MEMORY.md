@@ -1,4 +1,5 @@
-- [R3F viewer robustness](r3f-viewer.md) — detect WebGL synchronously before mounting Canvas; fly-to camera must yield to OrbitControls; local Lightformer env, no network HDR.
+- [R3F viewer robustness](r3f-viewer.md) — GENERAL R3F guidance (lynx no longer uses 3D): detect WebGL synchronously before Canvas; fly-to camera must yield to OrbitControls; local Lightformer env.
 - [Artifact Vite build env](artifact-vite-build.md) — building/previewing a web artifact outside its workflow needs PORT and BASE_PATH env vars or vite.config throws.
 - [Lynx brand logo assets](lynx-brand-assets.md) — lynx-logo.png is the FULL lime lockup (head + baked "LYNX RACING" text); lynx-mark.png is head-only for custom-wordmark lockups.
-- [Lynx intro menu style](lynx-intro-menu-style.md) — intro main-menu items are text-only (no bordered/neon-outline boxes); gothic font, bottom-left, soft glow + ► on hover.
+- [Lynx intro & navigation](lynx-intro-menu-style.md) — gothic title-screen menu REMOVED; now HUD boot flash + TopBar/MenuOverlay; use ?nointro=1 to skip intro for screenshots/deep links.
+- [Lynx design & content rules](lynx-design-system.md) — bike is a CONCEPT (no fake data); palette discipline; 2D bike inspection + zoom-coverage math (s ≥ 0.5/(0.5−|c−50|/100)).
