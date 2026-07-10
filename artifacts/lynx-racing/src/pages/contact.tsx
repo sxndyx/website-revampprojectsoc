@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, MapPin, Instagram, Linkedin } from "lucide-react";
 import { useSeo } from "@/hooks/useSeo";
@@ -13,8 +14,19 @@ export default function Contact() {
       "Get in touch with UNSW Lynx Racing — for sponsorship, recruitment, media or anything about the electric superbike build.",
   });
 
+  // Deep links (e.g. the sponsorship ENQUIRE buttons) can prefill the subject
+  // and message via ?subject=&message= query params.
+  const [params] = useSearchParams();
   const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", subject: SUBJECTS[0], message: "" });
+  const [form, setForm] = useState(() => {
+    const subjectParam = params.get("subject");
+    return {
+      name: "",
+      email: "",
+      subject: subjectParam && SUBJECTS.includes(subjectParam) ? subjectParam : SUBJECTS[0],
+      message: params.get("message") ?? "",
+    };
+  });
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

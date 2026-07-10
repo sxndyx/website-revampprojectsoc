@@ -3,6 +3,7 @@ import { Calendar, MapPin } from "lucide-react";
 import { useSeo } from "@/hooks/useSeo";
 import { SectionHeader } from "@/components/SectionHeader";
 import { EVENTS, type RaceEvent } from "@/data/site";
+import { CircuitExperience } from "@/components/events/CircuitExperience";
 
 function statusStyle(status: RaceEvent["status"]) {
   switch (status) {
@@ -19,20 +20,42 @@ export default function Events() {
   useSeo({
     title: "Events",
     description:
-      "The Lynx Racing roadmap — from build season at UNSW to the concept electric superbike's first competitive outing.",
+      "Ride a concept lap of Lynx Racing's target venue, MotorLand Aragón, then follow the roadmap from build season to the electric superbike's first competitive outing.",
   });
 
   return (
     <div>
       <section className="container mx-auto px-6 py-16 md:py-24 lg:px-12">
         <SectionHeader
-          code="EVENTS"
-          title="The Road Ahead"
-          subtitle="Our roadmap from build season to the bike's first competitive outing. Dates firm up as milestones are hit — check back for updates."
+          code="RACE PROGRAM"
+          title="Ride The Circuit"
+          subtitle="A concept lap of our target venue — MotorLand Aragón. Orbit the layout, then dive into rider view to run the program checkpoint by checkpoint."
         />
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 md:mt-14"
+        >
+          <CircuitExperience />
+        </motion.div>
+
+        <p className="mt-4 font-mono text-xs tracking-wider text-muted-foreground/60">
+          * Concept visualisation — the layout is a stylised interpretation, not a timed simulation.
+        </p>
       </section>
 
       <section className="container mx-auto px-6 pb-28 lg:px-12">
+        <div className="mb-8 md:mb-10">
+          <h2 className="font-display text-2xl font-black uppercase md:text-3xl">The Road Ahead</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Our roadmap from build season to the bike's first competitive outing. Dates firm up as milestones are
+            hit — check back for updates.
+          </p>
+        </div>
+
         <div className="border border-border/40">
           {EVENTS.map((e, i) => (
             <motion.div
