@@ -1,23 +1,30 @@
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowRight, Check, MapPin, Instagram, Linkedin } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Check, Copy, Instagram, Linkedin, MapPin } from "lucide-react";
 import { useSeo } from "@/hooks/useSeo";
-import { SectionHeader } from "@/components/SectionHeader";
+import { Reveal } from "@/components/fx/Reveal";
+import { MonoLabel } from "@/components/fx/MonoLabel";
+import { EASE_OUT_STRONG } from "@/lib/motion";
 
 const SUBJECTS = ["Sponsorship", "Joining the team", "Media / Press", "General enquiry"];
 
+/**
+ * Contact. Honest by design: no team inbox is live yet, so the form composes
+ * your message, copies it, and points you at the channels a human actually
+ * reads — nothing pretends to be "sent".
+ */
 export default function Contact() {
   useSeo({
     title: "Contact",
     description:
-      "Get in touch with UNSW Lynx Racing — for sponsorship, recruitment, media or anything about the electric superbike build.",
+      "Get in touch with UNSW Lynx Racing — sponsorship, recruitment, media or anything about the electric superbike build.",
   });
 
-  // Deep links (e.g. the sponsorship ENQUIRE buttons) can prefill the subject
-  // and message via ?subject=&message= query params.
+  const reduced = useReducedMotion();
   const [params] = useSearchParams();
-  const [sent, setSent] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [touched, setTouched] = useState(false);
   const [form, setForm] = useState(() => {
     const subjectParam = params.get("subject");
     return {
@@ -28,52 +35,65 @@ export default function Contact() {
     };
   });
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.message) return;
-    setSent(true);
+  const valid = form.name.trim() && /.+@.+\..+/.test(form.email) && form.message.trim();
+
+  const composed = useMemo(
+    () =>
+      `${form.subject.toUpperCase()} — VIA LYNXRACING SITE\n\nFrom: ${form.name} (${form.email})\n\n${form.message}`,
+    [form],
+  );
+
+  const copyMessage = async () => {
+    setTouched(true);
+    if (!valid) return;
+    try {
+      await navigator.clipboard.writeText(composed);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 4000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   const field =
-    "w-full rounded-none border border-border bg-background px-4 py-3 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/50 focus:border-primary/70";
+    "w-full border border-hairline bg-surface px-4 py-3 font-mono text-sm text-ink outline-none transition-colors placeholder:text-ink-dim/50 focus:border-acid/60";
 
   return (
-    <div>
-      <section className="container mx-auto px-6 py-16 md:py-24 lg:px-12">
-        <SectionHeader
-          code="CONTACT"
-          title="Get in Touch"
-          subtitle="Sponsorship, recruitment, media or just curious about the build — send us a message and the right person will get back to you."
-        />
-      </section>
+    <section className="relative overflow-hidden">
+      <div aria-hidden className="pointer-events-none absolute inset-0 carbon-weave" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 -top-20 h-[38rem] w-[38rem] bloom-violet-soft" />
 
-      <section className="container mx-auto px-6 pb-28 lg:px-12">
-        <div className="grid gap-px border border-border/40 bg-border/40 lg:grid-cols-[1fr_360px]">
-          {/* Form */}
-          <div className="bg-background p-8 md:p-12">
-            {sent ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex h-full flex-col items-center justify-center gap-5 py-16 text-center"
+      <div className="relative mx-auto max-w-6xl px-5 py-14 lg:px-10 lg:py-20">
+        <Reveal>
+          <MonoLabel text="COMMS — SPONSORSHIP · RECRUITMENT · MEDIA" className="text-acid" />
+        </Reveal>
+        <Reveal delay={0.05}>
+          <h1 className="mt-4 max-w-3xl font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight md:text-7xl">
+            Open a channel
+          </h1>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p className="mt-4 max-w-2xl text-ink-dim">
+            Sponsorship, joining, media or just curious about the build — compose it here and send
+            it through a channel a human actually reads.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.15} className="mt-12">
+          <div className="grid gap-px border border-hairline bg-hairline lg:grid-cols-[1.4fr_1fr]">
+            {/* Composer */}
+            <div className="bg-[#0a0a0d] p-7 md:p-10">
+              <form
+                className="space-y-5"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void copyMessage();
+                }}
               >
-                <span className="flex h-14 w-14 items-center justify-center bg-primary text-background">
-                  <Check size={28} />
-                </span>
-                <h3 className="font-display text-2xl font-extrabold uppercase">Message sent</h3>
-                <p className="max-w-sm font-mono text-sm text-muted-foreground">
-                  Thanks for reaching out. We'll get back to you from the garage as soon as we can.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={onSubmit} className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label
-                      htmlFor="contact-name"
-                      className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
-                    >
-                      Name
+                    <label htmlFor="contact-name" className="mb-2 block mono-label text-ink-dim">
+                      Name *
                     </label>
                     <input
                       id="contact-name"
@@ -84,11 +104,8 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="contact-email"
-                      className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
-                    >
-                      Email
+                    <label htmlFor="contact-email" className="mb-2 block mono-label text-ink-dim">
+                      Email *
                     </label>
                     <input
                       id="contact-email"
@@ -102,10 +119,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="contact-subject"
-                    className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
-                  >
+                  <label htmlFor="contact-subject" className="mb-2 block mono-label text-ink-dim">
                     Subject
                   </label>
                   <select
@@ -115,7 +129,7 @@ export default function Contact() {
                     onChange={(e) => setForm({ ...form, subject: e.target.value })}
                   >
                     {SUBJECTS.map((s) => (
-                      <option key={s} value={s} className="bg-background">
+                      <option key={s} value={s} className="bg-surface">
                         {s}
                       </option>
                     ))}
@@ -123,15 +137,12 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="contact-message"
-                    className="mb-2 block font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
-                  >
-                    Message
+                  <label htmlFor="contact-message" className="mb-2 block mono-label text-ink-dim">
+                    Message *
                   </label>
                   <textarea
                     id="contact-message"
-                    rows={5}
+                    rows={6}
                     className={`${field} resize-none`}
                     placeholder="Tell us what's on your mind…"
                     value={form.message}
@@ -139,69 +150,116 @@ export default function Contact() {
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="group inline-flex items-center gap-3 bg-primary px-8 py-4 font-display font-bold uppercase tracking-widest text-background transition-colors hover:bg-primary/90"
-                >
-                  Send message
-                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                </button>
-              </form>
-            )}
-          </div>
+                {touched && !valid && (
+                  <p className="mono-label text-danger">NAME, VALID EMAIL AND MESSAGE ARE REQUIRED</p>
+                )}
 
-          {/* Info */}
-          <aside className="flex flex-col gap-8 bg-[#0a0a0d] p-8 md:p-12">
-            <div>
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
-                Reach us
-              </span>
-              <div className="mt-5 space-y-5">
-                <div className="flex items-start gap-3">
-                  <MapPin size={18} className="mt-0.5 text-primary" />
-                  <div>
-                    <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                      Based at
-                    </p>
-                    <p className="font-display font-semibold">UNSW Sydney, Kensington</p>
-                  </div>
-                </div>
-                <p className="text-sm font-light leading-relaxed text-muted-foreground">
-                  The fastest way to reach the team is the form or a DM — we'll reply from the garage.
-                </p>
-              </div>
-            </div>
-
-            <div className="border-t border-border pt-8">
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
-                Follow
-              </span>
-              <div className="mt-4 flex gap-3">
-                {[
-                  { icon: Instagram, href: "https://instagram.com/unswlynxracing", label: "Instagram — @unswlynxracing" },
-                  { icon: Linkedin, href: "https://www.linkedin.com/company/unsw-lynx-racing", label: "LinkedIn — UNSW Lynx Racing" },
-                ].map((s) => (
+                <div className="flex flex-wrap items-center gap-3 pt-1">
+                  <button
+                    type="submit"
+                    className="inline-flex items-center gap-3 bg-acid px-6 py-3.5 font-display text-sm font-bold uppercase tracking-widest text-[#0a0a0d] transition-colors hover:bg-acid/90"
+                  >
+                    {copied ? <Check size={16} aria-hidden /> : <Copy size={16} aria-hidden />}
+                    {copied ? "Copied — now send it" : "Copy message"}
+                  </button>
                   <a
-                    key={s.label}
-                    href={s.href}
+                    href="https://instagram.com/unswlynxracing"
                     target="_blank"
                     rel="noreferrer noopener"
-                    aria-label={s.label}
-                    className="flex h-11 w-11 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary/60 hover:text-primary"
+                    className="inline-flex items-center gap-2.5 border border-hairline px-6 py-3.5 font-display text-sm font-bold uppercase tracking-widest text-ink transition-colors hover:border-acid/50 hover:text-acid"
                   >
-                    <s.icon size={18} />
+                    <Instagram size={16} aria-hidden /> Send via DM
                   </a>
-                ))}
-              </div>
+                </div>
+
+                <AnimatePresence>
+                  {copied && (
+                    <motion.p
+                      initial={reduced ? { opacity: 0 } : { opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.35, ease: EASE_OUT_STRONG }}
+                      className="mono-label text-acid"
+                    >
+                      MESSAGE ON YOUR CLIPBOARD — PASTE IT INTO A DM
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+
+                <p className="pt-2 text-xs text-ink-dim">
+                  No team inbox is live yet — this composer copies your message instead of
+                  pretending to send it. DMs are answered from the garage.
+                </p>
+              </form>
             </div>
 
-            <div className="mt-auto font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
-              <p>LX-CONCEPT / 2026</p>
-              <p className="mt-1 text-primary/60">Response within ~48h</p>
-            </div>
-          </aside>
-        </div>
-      </section>
-    </div>
+            {/* Channel card */}
+            <aside className="flex flex-col gap-8 bg-[#08080a] p-7 md:p-10">
+              <div>
+                <MonoLabel text="REACH US" className="text-acid" decode={false} />
+                <div className="mt-5 flex items-start gap-3">
+                  <MapPin size={18} className="mt-0.5 shrink-0 text-acid" aria-hidden />
+                  <div>
+                    <p className="mono-label text-ink-dim">BASED AT</p>
+                    <p className="mt-1 font-display font-bold uppercase">UNSW Sydney, Kensington</p>
+                    <p className="mono-label mt-1 text-ink-dim">-33.9173 / 151.2313</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-hairline pt-7">
+                <MonoLabel text="CHANNELS" className="text-ink-dim" decode={false} />
+                <div className="mt-4 space-y-3">
+                  <a
+                    href="https://instagram.com/unswlynxracing"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group flex items-center justify-between border border-hairline px-4 py-3 transition-colors hover:border-acid/50"
+                  >
+                    <span className="flex items-center gap-3 text-sm text-ink">
+                      <Instagram size={16} className="text-ink-dim group-hover:text-acid" aria-hidden />
+                      @unswlynxracing
+                    </span>
+                    <ArrowUpRight size={14} className="text-ink-dim group-hover:text-acid" aria-hidden />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/company/unsw-lynx-racing"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group flex items-center justify-between border border-hairline px-4 py-3 transition-colors hover:border-acid/50"
+                  >
+                    <span className="flex items-center gap-3 text-sm text-ink">
+                      <Linkedin size={16} className="text-ink-dim group-hover:text-acid" aria-hidden />
+                      UNSW Lynx Racing
+                    </span>
+                    <ArrowUpRight size={14} className="text-ink-dim group-hover:text-acid" aria-hidden />
+                  </a>
+                </div>
+              </div>
+
+              <div className="border-t border-hairline pt-7">
+                <MonoLabel text="PARTNER WITH US" className="text-ink-dim" decode={false} />
+                <p className="mt-3 text-sm text-ink-dim">
+                  Exploring sponsorship? The livery configurator shows exactly what your brand
+                  gets.
+                </p>
+                <Link
+                  to="/sponsors"
+                  className="group mt-3 inline-flex items-center gap-2 mono-label-lg text-acid transition-colors hover:text-ink"
+                >
+                  Open the configurator
+                  <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+                </Link>
+              </div>
+
+              <div className="mt-auto pt-6 mono-label text-ink-dim/60">
+                <p>LX-CONCEPT / 2026</p>
+                <p className="mt-1">RESPONSE FROM THE GARAGE — TYPICALLY ~48H</p>
+              </div>
+            </aside>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
