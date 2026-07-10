@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame, useThree, type ThreeEvent } from "@react-three/fiber";
-import { Line, OrbitControls, Trail } from "@react-three/drei";
+import { Line, OrbitControls } from "@react-three/drei";
 import { CHECKPOINTS, CIRCUIT_POINTS } from "@/data/circuit";
+import { checkerTexture, kerbTexture } from "./world/textures";
+import { Floodlight, Grandstand, Jumbotron, SkyDome, StartGantry, VenueGround } from "./world/Venue";
+import { BbqTerrace, ComingSoonIsland, Paddock } from "./world/Islands";
+import { RaceBike } from "./world/RaceBike";
 
 /* -------------------------------------------------------------------------- *
  * Circuit geometry. The curve MUST be built as a closed, uniform Catmull-Rom
@@ -21,7 +25,8 @@ const RIDER_H = 2.4;
 const DIVE_DUR = 1.5;
 const EXIT_DUR = 1.2;
 
-function buildRibbon(width: number, segments: number): THREE.BufferGeometry {
+/** Track ribbon extruded along the curve; `offset` shifts it sideways (kerbs). */
+function buildRibbon(width: number, segments: number, offset = 0): THREE.BufferGeometry {
   const half = width / 2;
   const pos = new Float32Array((segments + 1) * 2 * 3);
   const uv = new Float32Array((segments + 1) * 2 * 2);
@@ -36,6 +41,7 @@ function buildRibbon(width: number, segments: number): THREE.BufferGeometry {
     CURVE.getPoint(t, p);
     CURVE.getTangent(t, tan).normalize();
     side.crossVectors(tan, up).normalize();
+    p.addScaledVector(side, offset);
     const o = i * 6;
     pos[o] = p.x + side.x * half;
     pos[o + 1] = 0;
@@ -63,18 +69,18 @@ function buildRibbon(width: number, segments: number): THREE.BufferGeometry {
 }
 
 const RIBBON_SURFACE = buildRibbon(TRACK_WIDTH, 420);
-const RIBBON_EDGE = buildRibbon(TRACK_WIDTH + 1.3, 420);
-const CENTER_LINE = CURVE.getPoints(260).map((v) => [v.x, 0.05, v.z] as [number, number, number]);
+const RIBBON_GLOW = buildRibbon(TRACK_WIDTH + 1.8, 420);
+const KERB_L = buildRibbon(1.05, 420, TRACK_WIDTH / 2 + 0.5);
+const KERB_R = buildRibbon(1.05, 420, -(TRACK_WIDTH / 2 + 0.5));
+const CENTER_LINE = CURVE.getPoints(260).map((v) => [v.x, 0.06, v.z] as [number, number, number]);
 
-const STRUCTURES: { p: [number, number]; s: [number, number, number] }[] = [
-  { p: [63, 8], s: [5, 5, 16] },
-  { p: [57, -22], s: [9, 3, 7] },
-  { p: [-66, 22], s: [6, 6, 12] },
-  { p: [-42, 60], s: [12, 3, 6] },
-  { p: [10, 62], s: [14, 4, 5] },
-  { p: [22, -52], s: [8, 5, 8] },
-  { p: [-16, -48], s: [6, 3, 10] },
-];
+/** Start/finish transform (t = 0). */
+const START = (() => {
+  const p = CURVE.getPoint(0);
+  const tan = CURVE.getTangent(0).normalize();
+  const side = new THREE.Vector3().crossVectors(tan, new THREE.Vector3(0, 1, 0)).normalize();
+  return { p, tan, side, angle: Math.atan2(tan.x, tan.z) };
+})();
 
 const CP_POSITIONS = CHECKPOINTS.map((cp) => {
   const v = new THREE.Vector3();
@@ -154,6 +160,13 @@ export function CircuitScene({ apiRef, onView, onActiveCheckpoint }: CircuitScen
   const fromQuat = useRef(new THREE.Quaternion());
   const savedPos = useRef(new THREE.Vector3());
   const savedTarget = useRef(new THREE.Vector3());
+
+  const kerb = useMemo(() => {
+    const t = kerbTexture();
+    t.repeat.set(1, 0.5); // one red/white pair every two ribbon segments
+    return t;
+  }, []);
+  const checker = useMemo(checkerTexture, []);
 
   const beginDive = (u: number, cpIndex: number | null) => {
     if (phase.current !== "orbit") return;
@@ -266,10 +279,14 @@ export function CircuitScene({ apiRef, onView, onActiveCheckpoint }: CircuitScen
   return (
     <>
       <color attach="background" args={["#060607"]} />
-      <fogExp2 attach="fog" args={["#060607", 0.0082]} />
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[40, 60, 20]} intensity={0.7} color="#cbb8ff" />
-      <directionalLight position={[-30, 30, -40]} intensity={0.25} color="#a6ff3e" />
+      <fogExp2 attach="fog" args={["#060607", 0.006]} />
+
+      {/* Night-race light rig: cool violet sky bounce + warm floodlight wash. */}
+      <ambientLight intensity={0.4} />
+      <hemisphereLight args={["#241b3d", "#0c1a10", 0.55]} />
+      <directionalLight position={[0, 90, 10]} intensity={0.55} color="#ffe9c0" />
+      <directionalLight position={[40, 60, 20]} intensity={0.35} color="#cbb8ff" />
+      <directionalLight position={[-30, 30, -40]} intensity={0.15} color="#a6ff3e" />
 
       <OrbitControls
         ref={controlsRef}
@@ -278,88 +295,70 @@ export function CircuitScene({ apiRef, onView, onActiveCheckpoint }: CircuitScen
         dampingFactor={0.08}
         autoRotate
         autoRotateSpeed={0.35}
-        minDistance={45}
-        maxDistance={160}
+        minDistance={40}
+        maxDistance={175}
         minPolarAngle={0.15}
         maxPolarAngle={1.15}
       />
 
-      {/* ground */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.12, 0]}>
-        <planeGeometry args={[520, 520]} />
-        <meshStandardMaterial color="#08080b" roughness={1} metalness={0} />
+      {/* Venue ground + track */}
+      <SkyDome />
+      <VenueGround />
+      <mesh geometry={RIBBON_GLOW} position={[0, 0.005, 0]}>
+        <meshBasicMaterial color="#7b34ff" transparent opacity={0.3} side={THREE.DoubleSide} />
       </mesh>
-      <gridHelper args={[420, 84, "#1b1b24", "#101018"]} position={[0, 0, 0]} />
-
-      {/* track: violet edge-light under the dark surface */}
-      <mesh geometry={RIBBON_EDGE} position={[0, 0.01, 0]}>
-        <meshBasicMaterial color="#7b34ff" transparent opacity={0.6} side={THREE.DoubleSide} />
+      <mesh geometry={KERB_L} position={[0, 0.025, 0]}>
+        <meshBasicMaterial map={kerb} side={THREE.DoubleSide} toneMapped={false} />
       </mesh>
-      <mesh geometry={RIBBON_SURFACE} position={[0, 0.03, 0]}>
-        <meshStandardMaterial color="#0b0b0f" roughness={0.55} metalness={0.2} side={THREE.DoubleSide} />
+      <mesh geometry={KERB_R} position={[0, 0.025, 0]}>
+        <meshBasicMaterial map={kerb} side={THREE.DoubleSide} toneMapped={false} />
       </mesh>
-      <Line points={CENTER_LINE} color="#a6ff3e" lineWidth={1.4} dashed dashSize={2} gapSize={2.4} transparent opacity={0.85} />
+      <mesh geometry={RIBBON_SURFACE} position={[0, 0.035, 0]}>
+        <meshStandardMaterial color="#15151b" roughness={0.7} metalness={0.15} side={THREE.DoubleSide} />
+      </mesh>
+      <Line points={CENTER_LINE} color="#a6ff3e" lineWidth={1.2} dashed dashSize={2} gapSize={2.6} transparent opacity={0.4} />
 
-      {/* abstract paddock / grandstand blocks */}
-      {STRUCTURES.map((b, i) => (
-        <mesh key={i} position={[b.p[0], b.s[1] / 2, b.p[1]]}>
-          <boxGeometry args={b.s} />
-          <meshStandardMaterial color="#131319" roughness={0.8} metalness={0.1} emissive="#1a0f2e" emissiveIntensity={0.35} />
-        </mesh>
-      ))}
+      {/* Start/finish */}
+      <mesh
+        rotation={[-Math.PI / 2, 0, -START.angle]}
+        position={[START.p.x, 0.045, START.p.z]}
+      >
+        <planeGeometry args={[TRACK_WIDTH, 2.1]} />
+        <meshBasicMaterial map={checker} toneMapped={false} />
+      </mesh>
+      <StartGantry point={START.p} side={START.side} trackWidth={TRACK_WIDTH} />
 
-      {/* checkpoint markers */}
+      {/* Grandstands, lights, screen */}
+      <Grandstand position={[62, 14]} rotationY={-Math.PI / 2} width={50} seed={1} />
+      <Grandstand position={[8, -48]} rotationY={0} width={40} seed={2} />
+      <Grandstand position={[-64, 28]} rotationY={Math.PI / 2} width={36} tiers={6} seed={3} />
+      <Jumbotron position={[20, 60]} rotationY={Math.PI} />
+      {([[66, 36], [62, -26], [32, -50], [-26, -46], [-66, 6], [-52, 54], [16, 64]] as [number, number][]).map(
+        (p, i) => <Floodlight key={i} position={p} />,
+      )}
+
+      {/* Fan-world islands */}
+      <BbqTerrace position={[38, 54]} rotationY={-0.6} />
+      <Paddock position={[58, -14]} rotationY={-Math.PI / 2} />
+      <ComingSoonIsland position={[-44, -32]} rotationY={0.7} title="Fan Zone" kind="stage" />
+      <ComingSoonIsland position={[-60, 46]} rotationY={1.2} title="E-Kart Circuit" kind="karts" />
+      <ComingSoonIsland position={[4, -54]} rotationY={0.1} title="Night Market" kind="market" />
+
+      {/* Checkpoint markers */}
       {CHECKPOINTS.map((_, i) => (
         <CheckpointMarker key={i} index={i} onPick={(idx) => beginDive(CHECKPOINTS[idx].t, idx)} />
       ))}
 
-      {/* comet riders */}
-      <Comet color="#a6ff3e" u0={0.0} speed={0.05} onPick={(u) => beginDive(u, null)} />
-      <Comet color="#9b4dff" u0={0.42} speed={0.045} onPick={(u) => beginDive(u, null)} />
-      <Comet color="#c9a4ff" u0={0.72} speed={0.055} onPick={(u) => beginDive(u, null)} />
+      {/* The grid */}
+      <RaceBike curve={CURVE} color="#a6ff3e" u0={0.0} speed={0.05} onPick={(u) => beginDive(u, null)} />
+      <RaceBike curve={CURVE} color="#9b4dff" u0={0.3} speed={0.046} onPick={(u) => beginDive(u, null)} />
+      <RaceBike curve={CURVE} color="#e8e8f0" u0={0.55} speed={0.054} onPick={(u) => beginDive(u, null)} />
+      <RaceBike curve={CURVE} color="#ff5a3c" u0={0.78} speed={0.049} onPick={(u) => beginDive(u, null)} />
     </>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-
-function Comet({
-  color,
-  u0,
-  speed,
-  onPick,
-}: {
-  color: string;
-  u0: number;
-  speed: number;
-  onPick: (u: number) => void;
-}) {
-  const ref = useRef<THREE.Mesh>(null);
-  const u = useRef(u0);
-  const p = useMemo(() => new THREE.Vector3(), []);
-
-  useFrame((_, delta) => {
-    const dt = Math.min(delta, 0.05);
-    u.current = (u.current + speed * dt) % 1;
-    CURVE.getPoint(u.current, p);
-    if (ref.current) ref.current.position.set(p.x, 0.55, p.z);
-  });
-
-  return (
-    <Trail width={2.6} length={7} color={color} attenuation={(t) => t * t} decay={1}>
-      <mesh
-        ref={ref}
-        onClick={(e: ThreeEvent<MouseEvent>) => {
-          e.stopPropagation();
-          onPick(u.current);
-        }}
-      >
-        <sphereGeometry args={[0.7, 16, 16]} />
-        <meshBasicMaterial color={color} />
-      </mesh>
-    </Trail>
-  );
-}
 
 function CheckpointMarker({ index, onPick }: { index: number; onPick: (idx: number) => void }) {
   const pos = CP_POSITIONS[index];

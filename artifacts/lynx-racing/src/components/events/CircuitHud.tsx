@@ -16,10 +16,10 @@ export function CircuitHud({ mode }: { mode: "orbit" | "ride" }) {
         <span className="mono-label text-ink">{ride ? "Simulation // Active" : "Circuit Map // Orbit"}</span>
       </div>
 
-      <div className="absolute right-6 top-5 mono-label text-ink-dim">MotorLand Aragón · Concept</div>
+      <div className="absolute right-6 top-5 mono-label text-ink-dim">Lynx GP Night Venue · Aragón Concept</div>
 
       <div className="absolute bottom-5 right-6 mono-label text-ink-dim">
-        {ride ? "Esc to exit · following the racing line" : "Click a checkpoint or rider to dive in"}
+        {ride ? "Esc to exit · following the racing line" : "Click a rider or checkpoint to dive in · explore the fan world"}
       </div>
     </div>
   );

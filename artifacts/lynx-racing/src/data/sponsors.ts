@@ -41,7 +41,7 @@ export const EXPOSURE_ROWS: { key: keyof Exposure; label: string }[] = [
   { key: "web", label: "Website" },
 ];
 
-/** A soft highlight region over a body panel: centre (x,y), size (w,h), rotation — all % / deg. */
+/** Hit/label region over a body panel: centre (x,y), size (w,h), rotation — all % / deg. */
 export interface Region {
   x: number;
   y: number;
@@ -66,55 +66,56 @@ export const ZONES: LiveryZone[] = [
     id: "m-nose", mode: "machine", name: "Front Fairing & Windscreen", tier: "TITLE",
     placement: "The nose and screen surround — the face of the bike, in shot on every front and three-quarter frame.",
     exposure: { track: 5, tv: 5, photo: 5, social: 5, web: 5 },
-    region: { x: 73, y: 34, w: 20, h: 34, rot: -8 },
+    region: { x: 71.1, y: 24.2, w: 14.0, h: 30.7, rot: -8 },
   },
   {
     id: "m-flank", mode: "machine", name: "Upper Fairing Flanks", tier: "PLATINUM",
     placement: "The large side panels — prime real estate for trackside pans and profile photography.",
     exposure: { track: 5, tv: 5, photo: 5, social: 4, web: 4 },
-    region: { x: 62, y: 43, w: 22, h: 22, rot: -6 },
+    region: { x: 61.2, y: 47.1, w: 22.7, h: 27.1, rot: -6 },
   },
   {
     id: "m-tail", mode: "machine", name: "Tail Unit Sides", tier: "PLATINUM",
     placement: "The rear seat unit — seen in trailing shots, on the grid and through every overtaking camera.",
     exposure: { track: 4, tv: 4, photo: 4, social: 4, web: 4 },
-    region: { x: 33, y: 29, w: 20, h: 16, rot: -12 },
+    region: { x: 30.6, y: 32.5, w: 15.4, h: 22.4, rot: -12 },
   },
   {
     id: "m-tank", mode: "machine", name: "Tank Cover", tier: "GOLD",
     placement: "The top tank — front and centre on rider on-board cameras and overhead shots.",
     exposure: { track: 4, tv: 3, photo: 4, social: 4, web: 3 },
-    region: { x: 52, y: 31, w: 16, h: 13, rot: -6 },
+    region: { x: 51.0, y: 29.0, w: 18.3, h: 13.5, rot: -6 },
   },
   {
     id: "m-belly", mode: "machine", name: "Belly Pan", tier: "GOLD",
     placement: "The lower fairing — a bold banner that fills low cornering and kerb-level shots.",
     exposure: { track: 4, tv: 4, photo: 4, social: 3, web: 3 },
-    region: { x: 56, y: 63, w: 23, h: 14, rot: -4 },
+    region: { x: 49.6, y: 70.9, w: 26.5, h: 16.5, rot: -4 },
   },
   {
     id: "m-fender", mode: "machine", name: "Front Fender", tier: "SILVER",
     placement: "The front mudguard — dead centre of every hard-braking and front-end photograph.",
     exposure: { track: 3, tv: 3, photo: 3, social: 3, web: 3 },
-    region: { x: 79, y: 56, w: 13, h: 13, rot: 0 },
+    region: { x: 76.1, y: 52.9, w: 9.6, h: 16.7, rot: 0 },
   },
   {
     id: "m-swingarm", mode: "machine", name: "Swingarm", tier: "SILVER",
     placement: "The rear swingarm — a clean technical surface for detail and cornering shots.",
     exposure: { track: 3, tv: 2, photo: 3, social: 3, web: 3 },
-    region: { x: 37, y: 63, w: 18, h: 9, rot: -6 },
+    region: { x: 32.1, y: 58.7, w: 16.9, h: 18.2, rot: -6 },
   },
   {
     id: "m-hugger", mode: "machine", name: "Rear Hugger", tier: "BRONZE",
     placement: "The rear wheel hugger — a signature accent that moves with the bike.",
     exposure: { track: 2, tv: 2, photo: 2, social: 2, web: 3 },
-    region: { x: 25, y: 55, w: 12, h: 12, rot: 0 },
+    region: { x: 31.7, y: 50.4, w: 8.6, h: 11.3, rot: 0 },
   },
   {
     id: "m-rim", mode: "machine", name: "Wheel Rim Decals", tier: "BRONZE",
     placement: "The wheel rims — a hypnotic rotating accent in dynamic and slow-motion footage.",
     exposure: { track: 3, tv: 2, photo: 3, social: 3, web: 2 },
-    region: { x: 81, y: 70, w: 15, h: 15, rot: 0 },
+    // Mask spans BOTH rims; the marker sits on the front rim so it isn't mid-air.
+    region: { x: 75.5, y: 66.5, w: 13.0, h: 24.0, rot: 0 },
   },
 
   // ----------------------------------------------------------------- HELMET
@@ -122,31 +123,31 @@ export const ZONES: LiveryZone[] = [
     id: "h-crown", mode: "helmet", name: "Crown", tier: "TITLE",
     placement: "The top of the helmet — the on-board and podium hero shot, straight to camera.",
     exposure: { track: 5, tv: 5, photo: 5, social: 5, web: 4 },
-    region: { x: 47, y: 21, w: 34, h: 16, rot: -4 },
+    region: { x: 48.9, y: 23.1, w: 62.1, h: 21.1, rot: -4 },
   },
   {
     id: "h-side", mode: "helmet", name: "Side Shells", tier: "PLATINUM",
     placement: "The helmet sides — front and centre in interviews, portraits and paddock shots.",
     exposure: { track: 5, tv: 5, photo: 5, social: 4, web: 4 },
-    region: { x: 57, y: 45, w: 30, h: 26, rot: -4 },
+    region: { x: 57.3, y: 52.1, w: 56.6, h: 50.8, rot: -4 },
   },
   {
     id: "h-visor", mode: "helmet", name: "Upper Visor Strip", tier: "GOLD",
     placement: "The brow above the visor — squarely in frame on every front-on rider shot.",
     exposure: { track: 4, tv: 4, photo: 4, social: 4, web: 3 },
-    region: { x: 33, y: 33, w: 24, h: 9, rot: -18 },
+    region: { x: 36.9, y: 40.0, w: 26.2, h: 22.7, rot: -18 },
   },
   {
     id: "h-chin", mode: "helmet", name: "Chin Flanks", tier: "SILVER",
     placement: "The chin bar — a tight, high-impact placement for close-up photography.",
     exposure: { track: 3, tv: 3, photo: 4, social: 3, web: 3 },
-    region: { x: 29, y: 60, w: 18, h: 16, rot: -8 },
+    region: { x: 27.6, y: 66.5, w: 29.3, h: 27.0, rot: -8 },
   },
   {
     id: "h-spoiler", mode: "helmet", name: "Rear Spoiler", tier: "BRONZE",
     placement: "The aero spoiler — a distinctive accent that reads in trailing and tucked shots.",
     exposure: { track: 2, tv: 3, photo: 3, social: 2, web: 2 },
-    region: { x: 78, y: 42, w: 17, h: 14, rot: 8 },
+    region: { x: 74.3, y: 45.4, w: 32.0, h: 25.8, rot: 8 },
   },
 ];
 

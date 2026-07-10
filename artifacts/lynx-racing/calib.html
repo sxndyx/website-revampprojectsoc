@@ -1,0 +1,51 @@
+<!doctype html>
+<!-- Dev-only calibration page for livery zone outlines: /calib.html
+     Imports the live ZONES data so sponsors.ts stays the single source of truth. -->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { margin: 0; background: #060607; font: 11px monospace; color: #9f9; }
+      .wrap { position: relative; display: inline-block; } /* shrink-wrap so the SVG box === image box */
+      .wrap img { display: block; width: 1380px; }
+      .wrap.helmet img { width: 900px; }
+      .wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+      path { fill: rgba(166,255,62,0.10); stroke: #a6ff3e; stroke-width: 1.5px; vector-effect: non-scaling-stroke; }
+      text { fill: #fff; font: 10px monospace; paint-order: stroke; stroke: #000; stroke-width: 2px; }
+      h2 { color: #a6ff3e; margin: 8px; }
+    </style>
+  </head>
+  <body>
+    <h2 id="status">loading…</h2>
+    <div class="wrap" id="machine"><img src="/renders/side-1440.webp" /></div>
+    <div class="wrap helmet" id="helmet"><img src="/renders/helmet-1440.webp" /></div>
+    <script type="module">
+      import { ZONES } from "/src/data/sponsors";
+      // ?w=640 shrinks both images so screenshots capture the whole subject;
+      // ?only=m-tail shows a single zone's mask.
+      const q = new URLSearchParams(location.search);
+      const w = q.get("w");
+      if (w) {
+        document.querySelector("#machine img").style.width = w + "px";
+        document.querySelector("#helmet img").style.width = w + "px";
+      }
+      const only = q.get("only");
+      for (const mode of ["machine", "helmet"]) {
+        const wrap = document.getElementById(mode);
+        for (const z of ZONES.filter((z) => z.mode === mode)) {
+          if (only && z.id !== only) continue;
+          const m = document.createElement("img");
+          m.src = "/world/zones/" + z.id + ".png";
+          m.style.cssText =
+            "position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.95;pointer-events:none";
+          wrap.appendChild(m);
+          const t = document.createElement("span");
+          t.textContent = z.id.slice(2);
+          t.style.cssText = `position:absolute;left:${z.region.x}%;top:${z.region.y}%;color:#fff;text-shadow:0 0 4px #000;font:12px monospace`;
+          wrap.appendChild(t);
+        }
+      }
+      document.getElementById("status").textContent = "zones: " + ZONES.length;
+    </script>
+  </body>
+</html>

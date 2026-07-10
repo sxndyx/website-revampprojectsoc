@@ -36,6 +36,13 @@ export function LiveryConfigurator() {
 
   const zones = useMemo(() => zonesForMode(mode), [mode]);
 
+  // Calibration aid: /sponsors?zones renders every panel outline at once so
+  // the traced paths can be checked against the render.
+  const debugZones = useMemo(
+    () => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("zones"),
+    [],
+  );
+
   // Zones the current filter makes interactive (SUPPORTER is off-bike → none).
   const navZones = useMemo(() => {
     if (filter === "ALL") return zones;
@@ -159,6 +166,15 @@ export function LiveryConfigurator() {
                     aria-hidden
                     className="pointer-events-none absolute inset-0 bg-base/50 transition-opacity duration-500"
                     style={{ opacity: active ? 1 : 0 }}
+                  />
+
+                  {/* real-panel shading masks */}
+                  <ZoneShades
+                    zones={zones}
+                    hoveredId={hovered}
+                    activeId={activeId}
+                    eligible={eligible}
+                    debug={debugZones}
                   />
 
                   {/* zone markers */}
@@ -299,6 +315,52 @@ function TierChips({ filter, onChange }: { filter: Filter; onChange: (f: Filter)
   );
 }
 
+/**
+ * Panel shading: each zone has a raster mask extracted from a recoloured
+ * render of the actual bodywork, so the highlight IS the panel's real pixels
+ * tinted acid green. Mask images share the photo's exact aspect ratio and use
+ * the same object-contain sizing, so they letterbox identically and align
+ * pixel-for-pixel.
+ */
+function ZoneShades({
+  zones,
+  hoveredId,
+  activeId,
+  eligible,
+  debug,
+}: {
+  zones: LiveryZone[];
+  hoveredId: string | null;
+  activeId: string | null;
+  eligible: Set<string>;
+  debug: boolean;
+}) {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0">
+      {zones.map((z) => {
+        const interactive = eligible.has(z.id);
+        const lit = activeId === z.id || hoveredId === z.id;
+        const show = (debug && interactive) || lit;
+        const dimmed = !!activeId && activeId !== z.id;
+        return (
+          <img
+            key={z.id}
+            src={`${BASE}world/zones/${z.id}.png`}
+            alt=""
+            draggable={false}
+            className="absolute inset-0 h-full w-full select-none object-contain"
+            style={{
+              opacity: show ? (dimmed ? 0.3 : 1) : 0,
+              transition: "opacity 300ms",
+              filter: lit && !dimmed ? "drop-shadow(0 0 10px rgba(166,255,62,0.35))" : "none",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 interface ZoneMarkerProps {
   zone: LiveryZone;
   interactive: boolean;
@@ -340,17 +402,6 @@ function ZoneMarker({ zone, interactive, active, hovered, dimmed, onHover, onSel
         transition: "opacity 300ms",
       }}
     >
-      {/* highlight region (rotated ellipse) */}
-      <span
-        aria-hidden
-        className="absolute inset-0 rounded-[50%] border border-acid/70 bg-acid/10 transition-opacity duration-300"
-        style={{
-          transform: `rotate(${region.rot}deg)`,
-          opacity: show ? 1 : 0,
-          boxShadow: "0 0 26px rgba(166,255,62,0.28)",
-        }}
-      />
-
       {/* pulsing centre marker */}
       <span className="pointer-events-none absolute left-1/2 top-1/2 flex h-4 w-4 -translate-x-1/2 -translate-y-1/2 items-center justify-center">
         <span
